@@ -35,4 +35,14 @@
         <item name="android:elevation">@dimen/app_bar_elevation</item>
     </style>
 
+    <!--https://stackoverflow.com/questions/31195129/collapsingtoolbarlayout-setting-expandedtitletextappearance-and-collapsedtitle-->
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+    <style name="WhiteText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

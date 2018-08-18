@@ -8,11 +8,14 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_photo_height"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:fitsSystemWindows="false">
         
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:expandedTitleTextAppearance="@style/TransparentText"
+            app:collapsedTitleTextAppearance="@style/WhiteText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="false">
             <!--app:expandedTitleMarginStart-->
@@ -55,31 +58,36 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/article_title"
-                        style="?android:attr/textAppearanceLarge"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                        android:fontFamily="sans-serif-condensed"
-                        android:textColor="#fff"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/detail_title_text_size"
-                        android:lineSpacingMultiplier="0.9" />
+                    android:id="@+id/article_title"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/detail_title_text_size"
+                    android:lineSpacingMultiplier="0.9" />
 
                 <TextView
                         android:id="@+id/article_byline"
                         style="?android:attr/textAppearanceSmall"
-                        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        app:layout_scrollFlags="exitUntilCollapsed"
                         android:textColor="#8fff" />
             </LinearLayout>
 
+            <!-- I manually set the height of this Toolbar, which doesn't seem quite right, but I wanted to achieve both: -->
+            <!-- 1. Transparent status bar, with the image drawing under it-->
+            <!-- 2. The Toolbar does not draw under the status bar, so it's the full height when collapsed and -->
+            <!--    the back button doesn't draw underneath the status bar (makes it hard to tap) -->
             <android.support.v7.widget.Toolbar
                     android:id="@+id/fragment_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:layout_gravity="bottom"
+                    android:layout_height="80dp"
+                    android:layout_gravity="top"
+                    android:paddingTop="24dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     android:elevation="@dimen/app_bar_elevation"
                     app:layout_collapseMode="pin"

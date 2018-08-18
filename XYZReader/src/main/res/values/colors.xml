@@ -18,6 +18,8 @@
 <resources>
     <color name="photo_placeholder">#ccc</color>
     <color name="default_muted_title_background">#333333</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="primaryColor">#d81b60</color>
     <color name="primaryLightColor">#ff5c8d</color>
