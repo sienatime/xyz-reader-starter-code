@@ -51,7 +51,7 @@
                     android:paddingTop="@dimen/detail_metabar_vert_padding"
                     android:paddingBottom="@dimen/detail_metabar_vert_padding"
                     android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
-                    android:elevation="2dp">
+                    android:elevation="@dimen/app_bar_elevation">
 
                     <TextView
                         android:id="@+id/article_title"

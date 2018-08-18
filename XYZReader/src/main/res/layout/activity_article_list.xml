@@ -1,26 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-            android:id="@+id/toolbar_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorPrimary"
-            android:elevation="8dp">
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/toolbarStyle">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                style="@style/toolbarStyle">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo"
+                android:contentDescription="@string/app_name" />
 
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo"
-                    android:contentDescription="@string/app_name" />
-
-        </android.support.v7.widget.Toolbar>
-    </FrameLayout>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -39,4 +32,4 @@
             android:paddingBottom="@dimen/top_bottom_padding" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
