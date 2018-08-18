@@ -24,5 +24,13 @@
     <style name="Theme.Bacon.Detail">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="toolbarStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:layout_marginLeft">@dimen/list_toolbar_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/list_toolbar_side_margin</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:background">@color/primaryColor</item>
+    </style>
 
 </resources>

@@ -1,5 +1,4 @@
 <com.example.xyzreader.ui.DrawInsetsFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,21 +13,22 @@
             android:layout_height="wrap_content">
 
             <FrameLayout
-                android:id="@+id/photo_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/photo_placeholder">
+                    android:id="@+id/photo_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="304dp"
+                    android:background="@color/photo_placeholder">
                 <!--suppress AndroidLintContentDescription -->
                 <ImageView
-                    android:id="@+id/photo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                     />
+                        android:id="@+id/photo"
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="112dp"
-                    android:background="@drawable/photo_background_protection" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/photo_background_protection"/>
 
             </FrameLayout>
 
@@ -36,7 +36,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:maxWidth="@dimen/detail_card_max_width"
                 android:background="#fff"
                 android:elevation="2dp"
@@ -47,7 +46,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#333"
-                    android:layout_gravity="bottom"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/detail_inner_horiz_margin"
                     android:paddingRight="@dimen/detail_inner_horiz_margin"

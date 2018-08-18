@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="top_bottom_padding">8dp</dimen>
     <!-- list -->
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_toolbar_side_margin">0dp</dimen>
