@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,4 +23,15 @@
             android:contentDescription="@string/up"
             android:src="@drawable/ic_arrow_back" />
     </FrameLayout>
-</FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/share_fab"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_share"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="end|bottom"
+    />
+</android.support.design.widget.CoordinatorLayout>
