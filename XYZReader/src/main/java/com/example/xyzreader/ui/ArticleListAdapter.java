@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static com.example.xyzreader.ui.ArticleDetailActivity.EXTRA_PAGER_POSITION;
+
 public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHolder> {
     private Cursor mCursor;
     private Context mContext;
@@ -48,8 +50,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW,
-                        ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                int position = vh.getAdapterPosition();
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        ItemsContract.Items.buildItemUri(getItemId(position)));
+                intent.putExtra(EXTRA_PAGER_POSITION, position);
+                mContext.startActivity(intent);
             }
         });
         return vh;

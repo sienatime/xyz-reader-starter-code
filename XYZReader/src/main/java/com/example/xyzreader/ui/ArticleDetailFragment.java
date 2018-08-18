@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,20 +123,19 @@ public class ArticleDetailFragment extends Fragment implements
         titleView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
-        bylineView.setMovementMethod(new LinkMovementMethod());
 
         if (mCursor != null) {
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
-            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
-            ((Toolbar)mRootView.findViewById(R.id.fragment_toolbar)).setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
+            String title = mCursor.getString(ArticleLoader.Query.TITLE);
+            titleView.setText(title);
 
             Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.fragment_toolbar);
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             activity.setSupportActionBar(toolbar);
             activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-            activity.getSupportActionBar().setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
+            activity.getSupportActionBar().setTitle(title);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 

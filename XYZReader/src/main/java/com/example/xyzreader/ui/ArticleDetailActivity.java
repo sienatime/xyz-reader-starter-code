@@ -6,14 +6,12 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.xyzreader.R;
@@ -25,9 +23,10 @@ import com.example.xyzreader.data.ItemsContract;
  */
 public class ArticleDetailActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
-
+    public static final String EXTRA_PAGER_POSITION = "EXTRA_PAGER_POSITION";
     private Cursor mCursor;
     private long mStartId;
+    private int mInitialPagerPosition = -1;
 
     private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
@@ -46,13 +45,13 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-        mPager.setPageMargin((int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
-        mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
                 mStartId = ItemsContract.Items.getItemId(getIntent().getData());
+                if (getIntent().hasExtra(EXTRA_PAGER_POSITION)) {
+                    mInitialPagerPosition = getIntent().getIntExtra(EXTRA_PAGER_POSITION, -1);
+                }
             }
         }
 
@@ -77,19 +76,23 @@ public class ArticleDetailActivity extends AppCompatActivity
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
 
-        // Select the start ID
-        if (mStartId > 0) {
-            mCursor.moveToFirst();
-            // TODO: optimize
-            while (!mCursor.isAfterLast()) {
-                if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
-                    final int position = mCursor.getPosition();
-                    mPager.setCurrentItem(position, false);
-                    break;
+        if (mInitialPagerPosition > -1) {
+            mPager.setCurrentItem(mInitialPagerPosition, false);
+        } else {
+            // Select the start ID
+            if (mStartId > 0) {
+                mCursor.moveToFirst();
+                // TODO: optimize
+                while (!mCursor.isAfterLast()) {
+                    if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
+                        final int position = mCursor.getPosition();
+                        mPager.setCurrentItem(position, false);
+                        break;
+                    }
+                    mCursor.moveToNext();
                 }
-                mCursor.moveToNext();
+                mStartId = 0;
             }
-            mStartId = 0;
         }
     }
 
