@@ -173,10 +173,12 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     static float progress(float v, float min, float max) {
-        return constrain((v - min) / (max - min), 0, 1);
+        return constrain((v - min) / (max - min));
     }
 
-    static float constrain(float val, float min, float max) {
+    static float constrain(float val) {
+        float min = 0;
+        float max = 1;
         if (val < min) {
             return min;
         } else if (val > max) {
