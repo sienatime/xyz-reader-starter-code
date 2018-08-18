@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/detail_photo_height"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="@dimen/app_bar_elevation"
         android:fitsSystemWindows="false">
         
         <android.support.design.widget.CollapsingToolbarLayout
@@ -18,9 +19,6 @@
             app:collapsedTitleTextAppearance="@style/WhiteText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="false">
-            <!--app:expandedTitleMarginStart-->
-            <!--app:expandedTitleMarginEnd-->
-            <!--app:contentScrim "A full-bleed scrim which is show or hidden when the scroll position has hit a certain threshold" -->
 
             <FrameLayout
                     android:id="@+id/photo_container"
@@ -74,7 +72,6 @@
                         style="?android:attr/textAppearanceSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_scrollFlags="exitUntilCollapsed"
                         android:textColor="#8fff" />
             </LinearLayout>
 
@@ -89,7 +86,6 @@
                     android:layout_gravity="top"
                     android:paddingTop="24dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    android:elevation="@dimen/app_bar_elevation"
                     app:layout_collapseMode="pin"
             >
 
