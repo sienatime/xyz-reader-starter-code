@@ -160,7 +160,7 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            setRecyclerViewWithBodyText(mCursor.getString(ArticleLoader.Query.BODY));
+            setRecyclerViewWithBodyText(mCursor);
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
@@ -184,11 +184,10 @@ public class ArticleDetailFragment extends Fragment implements
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
             bylineView.setText("N/A" );
-            setRecyclerViewWithBodyText("N/A");
         }
     }
 
-    private void setRecyclerViewWithBodyText(String bodyText) {
+    private void setRecyclerViewWithBodyText(Cursor cursor) {
         RecyclerView bodyRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_body_text);
         bodyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -197,12 +196,12 @@ public class ArticleDetailFragment extends Fragment implements
 
         ParseBodyTextTask asyncTask = new ParseBodyTextTask();
         asyncTask.setAdapter(adapter);
-        asyncTask.execute(bodyText);
+        asyncTask.execute(cursor);
     }
 
     // is this a good idea? still felt like my app was slow even after the recyclerview, so I moved the
     // processing to a background thread...
-    private static class ParseBodyTextTask extends AsyncTask<String, Void, ArrayList<String>> {
+    private static class ParseBodyTextTask extends AsyncTask<Cursor, Void, ArrayList<String>> {
         private BodyTextAdapter adapter;
 
         void setAdapter(BodyTextAdapter adapter) {
@@ -210,8 +209,9 @@ public class ArticleDetailFragment extends Fragment implements
         }
 
         @Override
-        protected ArrayList<String> doInBackground(String... strings) {
-            String bodyText = strings[0];
+        protected ArrayList<String> doInBackground(Cursor... cursors) {
+            Cursor cursor = cursors[0];
+            String bodyText = cursor.getString(ArticleLoader.Query.BODY);
             ArrayList<String> splitText = new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n")));
             for (int i = 0; i < splitText.size(); i++) {
                 String text = splitText.get(i);
