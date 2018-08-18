@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -188,10 +189,42 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     private void setRecyclerViewWithBodyText(String bodyText) {
-        ArrayList<String> splitBody = new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n")));
         RecyclerView bodyRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_body_text);
         bodyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        bodyRecyclerView.setAdapter(new BodyTextAdapter(splitBody));
+
+        BodyTextAdapter adapter = new BodyTextAdapter();
+        bodyRecyclerView.setAdapter(adapter);
+
+        ParseBodyTextTask asyncTask = new ParseBodyTextTask();
+        asyncTask.setAdapter(adapter);
+        asyncTask.execute(bodyText);
+    }
+
+    // is this a good idea? still felt like my app was slow even after the recyclerview, so I moved the
+    // processing to a background thread...
+    private static class ParseBodyTextTask extends AsyncTask<String, Void, ArrayList<String>> {
+        private BodyTextAdapter adapter;
+
+        void setAdapter(BodyTextAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(String... strings) {
+            String bodyText = strings[0];
+            ArrayList<String> splitText = new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n")));
+            for (int i = 0; i < splitText.size(); i++) {
+                String text = splitText.get(i);
+                splitText.set(i, text.replace("\r\n", " "));
+            }
+            return splitText;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> splitBodyText) {
+            super.onPostExecute(splitBodyText);
+            adapter.setItems(splitBodyText);
+        }
     }
 
     @Override
