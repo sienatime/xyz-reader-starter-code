@@ -10,16 +10,10 @@ import com.example.xyzreader.R;
 import java.util.ArrayList;
 
 public class BodyTextAdapter extends RecyclerView.Adapter {
-    private ArrayList<String> items = new ArrayList<>();
+    private ArrayList<String> items;
 
     public BodyTextAdapter(ArrayList<String> items) {
         this.items = items;
-    }
-    public BodyTextAdapter() {}
-
-    public void setItems(ArrayList<String> items) {
-        this.items.addAll(items);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -47,7 +41,7 @@ public class BodyTextAdapter extends RecyclerView.Adapter {
         }
 
         void bind(String bodyText) {
-            textView.setText(bodyText);
+            textView.setText(bodyText.replace("\r\n", " "));
         }
     }
 }

@@ -6,7 +6,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -109,7 +108,6 @@ public class ArticleDetailFragment extends Fragment implements
             return dateFormat.parse(date);
         } catch (ParseException ex) {
             Log.e(TAG, ex.getMessage());
-            Log.i(TAG, "passing today's date");
             return new Date();
         }
     }
@@ -138,6 +136,7 @@ public class ArticleDetailFragment extends Fragment implements
             activity.getSupportActionBar().setTitle(title);
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+            setRecyclerViewWithBodyText(mCursor);
 
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
@@ -158,7 +157,6 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            setRecyclerViewWithBodyText(mCursor);
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
@@ -188,41 +186,9 @@ public class ArticleDetailFragment extends Fragment implements
     private void setRecyclerViewWithBodyText(Cursor cursor) {
         RecyclerView bodyRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_body_text);
         bodyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        BodyTextAdapter adapter = new BodyTextAdapter();
+        String bodyText = cursor.getString(ArticleLoader.Query.BODY);
+        BodyTextAdapter adapter = new BodyTextAdapter(new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n"))));
         bodyRecyclerView.setAdapter(adapter);
-
-        ParseBodyTextTask asyncTask = new ParseBodyTextTask();
-        asyncTask.setAdapter(adapter);
-        asyncTask.execute(cursor);
-    }
-
-    // is this a good idea? still felt like my app was slow even after the recyclerview, so I moved the
-    // processing to a background thread...
-    private static class ParseBodyTextTask extends AsyncTask<Cursor, Void, ArrayList<String>> {
-        private BodyTextAdapter adapter;
-
-        void setAdapter(BodyTextAdapter adapter) {
-            this.adapter = adapter;
-        }
-
-        @Override
-        protected ArrayList<String> doInBackground(Cursor... cursors) {
-            Cursor cursor = cursors[0];
-            String bodyText = cursor.getString(ArticleLoader.Query.BODY);
-            ArrayList<String> splitText = new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n")));
-            for (int i = 0; i < splitText.size(); i++) {
-                String text = splitText.get(i);
-                splitText.set(i, text.replace("\r\n", " "));
-            }
-            return splitText;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> splitBodyText) {
-            super.onPostExecute(splitBodyText);
-            adapter.setItems(splitBodyText);
-        }
     }
 
     @Override
