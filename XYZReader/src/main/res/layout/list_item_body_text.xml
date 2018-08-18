@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
         android:layout_marginRight="@dimen/detail_inner_horiz_margin"
+        android:paddingTop="24dp"
         android:textColor="?android:attr/textColorPrimary"
         android:textColorLink="@color/secondaryDarkColor"
         android:textSize="@dimen/detail_body_text_size"

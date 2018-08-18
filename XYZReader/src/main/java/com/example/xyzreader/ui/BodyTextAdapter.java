@@ -41,7 +41,7 @@ public class BodyTextAdapter extends RecyclerView.Adapter {
         }
 
         void bind(String bodyText) {
-            textView.setText(bodyText);
+            textView.setText(bodyText.replace("\r\n", " "));
         }
     }
 }

@@ -188,7 +188,7 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     private void setRecyclerViewWithBodyText(String bodyText) {
-        ArrayList<String> splitBody = new ArrayList<>(Arrays.asList(bodyText.split("(\r\n|\n)")));
+        ArrayList<String> splitBody = new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n")));
         RecyclerView bodyRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_body_text);
         bodyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         bodyRecyclerView.setAdapter(new BodyTextAdapter(splitBody));
