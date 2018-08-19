@@ -40,6 +40,7 @@ import java.util.GregorianCalendar;
 public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "ArticleDetailFragment";
+    private static final String EXTRA_RECYCLERVIEW_POSITION = "EXTRA_RECYCLERVIEW_POSITION";
 
     public static final String ARG_ITEM_ID = "item_id";
 
@@ -48,6 +49,8 @@ public class ArticleDetailFragment extends Fragment implements
     private View mRootView;
     private int mMutedColor = 0xFF333333;
     private ImageView mPhotoView;
+    private LinearLayoutManager mLayoutManager;
+    private int lastViewedPosition = -1;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
@@ -97,7 +100,9 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-
+        if (savedInstanceState != null) {
+            lastViewedPosition = savedInstanceState.getInt(EXTRA_RECYCLERVIEW_POSITION, -1);
+        }
         bindViews();
         return mRootView;
     }
@@ -183,12 +188,24 @@ public class ArticleDetailFragment extends Fragment implements
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mLayoutManager != null) {
+            outState.putInt(EXTRA_RECYCLERVIEW_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
+        }
+    }
+
     private void setRecyclerViewWithBodyText(Cursor cursor) {
         RecyclerView bodyRecyclerView = (RecyclerView) mRootView.findViewById(R.id.rv_body_text);
-        bodyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        bodyRecyclerView.setLayoutManager(mLayoutManager);
         String bodyText = cursor.getString(ArticleLoader.Query.BODY);
         BodyTextAdapter adapter = new BodyTextAdapter(new ArrayList<>(Arrays.asList(bodyText.split("\r\n\r\n"))));
         bodyRecyclerView.setAdapter(adapter);
+        if (lastViewedPosition > -1) {
+            bodyRecyclerView.scrollToPosition(lastViewedPosition);
+        }
     }
 
     @Override

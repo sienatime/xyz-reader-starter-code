@@ -79,10 +79,11 @@ public class ArticleDetailActivity extends AppCompatActivity
         if (mInitialPagerPosition > -1) {
             mPager.setCurrentItem(mInitialPagerPosition, false);
         } else {
+            // this would only get called now if someone used the content provider to open this activity directly,
+            // instead of tapping on the list where we already have the position
             // Select the start ID
             if (mStartId > 0) {
                 mCursor.moveToFirst();
-                // TODO: optimize
                 while (!mCursor.isAfterLast()) {
                     if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {
                         final int position = mCursor.getPosition();
