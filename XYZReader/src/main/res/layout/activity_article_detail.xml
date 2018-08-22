@@ -17,6 +17,7 @@
             android:src="@drawable/ic_share"
             android:clickable="true"
             android:focusable="true"
+            android:elevation="@dimen/fab_elevation"
             android:layout_gravity="end|bottom"
     />
 </android.support.design.widget.CoordinatorLayout>
